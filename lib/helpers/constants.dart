@@ -1,29 +1,16 @@
 import 'package:flutter/material.dart';
 
-class AppConstants {
-  static const Color primaryColor = Color(0xffDF3222);
-  //  Color(0xff0601B4);
+Color primaryColor = Color(0xff0A0E21);
+Color secondaryColor = Color(0xffE83d67);
 
-  static const Color light_primary_color = Color(0xffFDEDEB);
-  //  Color.fromARGB(94, 132, 128, 238);
-  //
-  static const TextStyle primary_numbers_text_style = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    color: primaryColor,
-  );
-  static const double height = 10;
+Color body_background = Color(0xEff0A0E21);
+Color background_card_color = Color(0xff333144);
 
-  // static Image menuIcon = Image.asset('icons/menu.png', height: 20, width: 20);
-  static Icon addIcon = Icon(Icons.add, color: Colors.white, size: 16);
-  static const String defaultImage = 'profile.png';
-}
 
-void showMessgae(BuildContext currentContext, String message) {
-  ScaffoldMessenger.of(currentContext).showSnackBar(
-    SnackBar(
-      content: Text(message),
-      backgroundColor: AppConstants.primaryColor,
-    ),
-  );
-}
+TextStyle labelStyle = TextStyle(
+  fontSize: 18.0,
+  fontWeight: FontWeight.bold,
+  color: Color(0xFF8B8C9E),
+);
+
+TextStyle numberStyle = TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900);
