@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class GenderBoxContent extends StatelessWidget {
   final String gender;
   final IconData genderIcon;
-
+ 
   const GenderBoxContent({
     super.key,
     required this.gender,

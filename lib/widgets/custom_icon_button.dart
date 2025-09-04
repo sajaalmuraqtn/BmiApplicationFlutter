@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class CustomIconButton extends StatelessWidget {
   final IconData iconData;
-  const CustomIconButton({super.key, required this.iconData});
+  final void Function()? onPressed;
+
+  const CustomIconButton({super.key, required this.iconData,required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(40, 40),
         shape: const CircleBorder(),

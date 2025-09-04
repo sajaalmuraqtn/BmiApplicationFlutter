@@ -1,4 +1,6 @@
 import 'package:bmi_app/helpers/constants.dart';
+import 'package:bmi_app/logic/bmi_brain.dart';
+import 'package:bmi_app/screens/resultScreen.dart';
 import 'package:bmi_app/widgets/calculateButton.dart';
 import 'package:bmi_app/widgets/custom_card.dart';
 import 'package:bmi_app/widgets/custom_icon_button.dart';
@@ -6,8 +8,20 @@ import 'package:bmi_app/widgets/gender_box_content.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class HomeScreen extends StatelessWidget {
+enum Gender { Male, Female }
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int height = 150;
+  int weight = 30;
+  int age = 17;
+  Gender selectedGender = Gender.Male;
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +30,19 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-             Expanded(
+          Expanded(
             child: Row(
               children: [
                 Expanded(
                   child: Custom_card(
+                    cardColor: selectedGender == Gender.Male
+                        ? secondaryColor
+                        : background_card_color,
+                    onTap: () => {
+                      setState(() {
+                        selectedGender = Gender.Male;
+                      }),
+                    },
                     child: GenderBoxContent(
                       gender: 'Male',
                       genderIcon: FontAwesomeIcons.mars,
@@ -29,19 +51,27 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: Custom_card(
+                    cardColor: selectedGender == Gender.Female
+                        ? secondaryColor
+                        : background_card_color,
+
                     child: GenderBoxContent(
                       gender: 'Female',
                       genderIcon: FontAwesomeIcons.venus,
                     ),
+                    onTap: () => {
+                      setState(() {
+                        selectedGender = Gender.Female;
+                      }),
+                    },
                   ),
                 ),
               ],
             ),
           ),
-         Expanded(
+          Expanded(
             child: Custom_card(
               child: Column(
-
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text('Height', style: labelStyle),
@@ -50,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
                     children: [
-                      Text('150', style: numberStyle),
+                      Text(height.toString(), style: numberStyle),
                       Text('cm'),
                     ],
                   ),
@@ -65,15 +95,19 @@ class HomeScreen extends StatelessWidget {
                     child: Slider(
                       min: 130,
                       max: 200,
-                      value: 150,
-                      onChanged: (value) {},
+                      value: height.toDouble(),
+                      onChanged: (value) {
+                        setState(() {
+                          height=value.round();
+                        });
+                      },
                     ),
                   ),
                 ],
               ),
             ),
           ),
-           Expanded(
+          Expanded(
             child: Row(
               children: [
                 Expanded(
@@ -82,13 +116,26 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text('Weight', style: labelStyle),
-                        Text('60', style: numberStyle),
+                        Text(weight.toString(), style: numberStyle),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CustomIconButton(iconData: FontAwesomeIcons.minus),
-
-                            CustomIconButton(iconData: FontAwesomeIcons.plus),
+                            CustomIconButton(
+                              iconData: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  weight = weight > 30 ? weight - 1 : weight;
+                                });
+                              },
+                            ),
+                            CustomIconButton(
+                              iconData: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  weight = weight < 200 ? weight + 1 : weight;
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ],
@@ -103,13 +150,26 @@ class HomeScreen extends StatelessWidget {
 
                       children: [
                         Text('Age', style: labelStyle),
-                        Text('25', style: numberStyle),
+                        Text(age.toString(), style: numberStyle),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CustomIconButton(iconData: FontAwesomeIcons.minus),
-
-                            CustomIconButton(iconData: FontAwesomeIcons.plus),
+                            CustomIconButton(
+                              iconData: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  age = age > 17 ? age - 1 : age;
+                                });
+                              },
+                            ),
+                            CustomIconButton(
+                              iconData: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  age = age < 60 ? age + 1 : age;
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ],
@@ -119,9 +179,17 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-         
-          CalculateButton(title: "Calculate"), 
-          
+
+          CalculateButton(
+            title: "Calculate",
+            onPressed: () {
+              BMICalculator  bmiCalc =new BMICalculator(weight: weight, height: height);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ResultScreen(resultClass:bmiCalc.getResult(), bmi: bmiCalc.bmi, advice: bmiCalc.getAdvice(),)),
+              );
+            },
+          ),
         ],
       ),
     );

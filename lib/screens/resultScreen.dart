@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 
  
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key});
+  
+  final String resultClass;
+  final double bmi;
+  final String advice;
+ 
+  const ResultScreen({super.key  , required this.resultClass,
+    required this.bmi,
+    required this.advice, });
 
  
   @override
@@ -28,7 +35,7 @@ class ResultScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Normal',
+                    resultClass,
                     style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold,
@@ -36,7 +43,7 @@ class ResultScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '12.5',
+                     bmi.toStringAsFixed(1)  ,
                     style: TextStyle(
                       fontSize: 60,
                       fontWeight: FontWeight.w900,
@@ -44,14 +51,14 @@ class ResultScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'You have a normal body weight. Good job!',
+                   advice,
                     textAlign: TextAlign.center,
                   ),
                 ],
               ),
             ),
           ),
-          CalculateButton(title: 'RE-calculate'),
+          CalculateButton(title: 'RE-calculate',onPressed: () => Navigator.pop(context),),
         ],
       ),
     );
