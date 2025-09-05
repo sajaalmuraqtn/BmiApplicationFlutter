@@ -24,5 +24,5 @@ The app allows users to input their height, weight, and age, then calculates the
  
 ---
 
-## 🖼 Screenshots  
+## 🖼 Screens  
 ![Splash](assets/ScreenView.png)  
